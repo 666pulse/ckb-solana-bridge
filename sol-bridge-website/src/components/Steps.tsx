@@ -7,9 +7,12 @@ const steps = [
 
 export const Steps = () => {
   return (
-    <nav className="flex items-center justify-center" aria-label="Progress">
+    <nav
+      className="flex items-center justify-center text-white"
+      aria-label="Progress"
+    >
       <p className="text-sm font-medium">
-        Step {steps.findIndex((step) => step.status === 'current') + 1}: name
+        Step {steps.findIndex((step) => step.status === 'current') + 1}: action
       </p>
       <ol role="list" className="ml-8 flex items-center space-x-5">
         {steps.map((step) => (

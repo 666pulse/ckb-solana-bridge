@@ -6,9 +6,9 @@ import {
   SelectValue,
 } from '@/components/ui/select'
 
-export const SwapInput = () => {
+export const SwapToInput = () => {
   return (
-    <form className="mb-3">
+    <form className="mt-3">
       <div className="grid w-full items-center gap-4">
         {/* Item--1 */}
         <div className="flex flex-col space-y-1.5">
@@ -18,14 +18,14 @@ export const SwapInput = () => {
                 htmlFor="name"
                 className="block text-sm font-medium text-gray-500"
               >
-                Swap
+                To
               </label>
               <input
                 type="text"
                 name="name"
                 id="name"
                 className="block w-full border-0 p-0 text-gray-800 placeholder:text-gray-400 focus:outline-none sm:text-lg sm:leading-6 mt-2 font-medium bg-gray-50"
-                placeholder="0 CKB"
+                placeholder="0 SOL"
               />
             </div>
             <Select>
@@ -34,12 +34,11 @@ export const SwapInput = () => {
                   placeholder={
                     <div className="flex items-center justify-start gap-2">
                       <img
-                        src="/nervos-network-ckb-logo.svg"
+                        src="/solana-sol-logo.svg"
                         alt=""
                         className="h-3 w-auto"
                       />
-
-                      <p>CKB</p>
+                      <p>SOL</p>
                     </div>
                   }
                 />

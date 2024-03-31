@@ -1,7 +1,11 @@
 import { useState } from 'react'
 import { Dialog } from '@headlessui/react'
 import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline'
-import { Steps } from './Steps'
+
+const navigation = [
+  { name: 'Bridge', href: '#' },
+  { name: 'Share to X', href: '#' },
+]
 
 export const Header = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
@@ -33,7 +37,16 @@ export const Header = () => {
           </button>
         </div>
         <div className="hidden lg:flex lg:gap-x-12">
-          <Steps />
+          {' '}
+          {navigation.map((item) => (
+            <a
+              key={item.name}
+              href={item.href}
+              className="text-sm font-semibold leading-6 text-white"
+            >
+              {item.name}
+            </a>
+          ))}
         </div>
         <div className="hidden lg:flex lg:flex-1 lg:justify-end">
           <a href="#" className="text-sm font-semibold leading-6 text-white">
@@ -60,7 +73,7 @@ export const Header = () => {
             </a>
             <button
               type="button"
-              className="-m-2.5 rounded-md p-2.5 text-gray-700"
+              className="-m-2.5 rounded-md p-2.5 text-white"
               onClick={() => setMobileMenuOpen(false)}
             >
               <span className="sr-only">Close menu</span>
@@ -72,7 +85,7 @@ export const Header = () => {
               <div className="py-6">
                 <a
                   href="#"
-                  className="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
+                  className="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-white hover:bg-gray-700 transition-all"
                 >
                   Connect wallet
                 </a>
