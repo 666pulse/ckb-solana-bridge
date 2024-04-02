@@ -359,7 +359,9 @@ pub struct MintToken<'info> {
     #[account(mut)]
     /// CHECK
     pub token_account: AccountInfo<'info>,
-    #[account(init_if_needed, payer = signer, space = 8)] // init_if_needed reinit attack
+
+    // #[account(init_if_needed, payer = payer, space = 8)] // init_if_needed reinit attack
+    #[account(mut)]
     pub to_account: Account<'info, TokenAccount>,
     #[account(mut)]
     pub signer: Signer<'info>,

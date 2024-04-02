@@ -33,6 +33,10 @@ describe("sol-bridge", () => {
 
   let tokenAccountKeyPair = anchor.web3.Keypair.generate();
 
+  // before(async () => {
+
+  // });
+
   it("Create token!", async () => {
     console.log(mintToken.publicKey.toBase58());
     console.log(tokenAccount.toBase58());
@@ -54,7 +58,23 @@ describe("sol-bridge", () => {
   });
 
   it("Mint Token", async () => {
-    const account = anchor.web3.Keypair.generate();
+    const toAccount = anchor.web3.Keypair.generate();
+
+    const signature = await provider.connection.requestAirdrop(
+      toAccount.publicKey,
+      anchor.web3.LAMPORTS_PER_SOL
+    );
+
+    await provider.connection.confirmTransaction(signature);
+
+    let recieverTokenAccountKeypair = anchor.web3.Keypair.generate();
+    await createAccount(
+      provider.connection,
+      toAccount,
+      mintToken.publicKey,
+      toAccount.publicKey,
+      recieverTokenAccountKeypair
+    );
 
     const num = new anchor.BN(10 ** 9 * 100);
     const tx = await program.methods
@@ -62,10 +82,10 @@ describe("sol-bridge", () => {
       .accounts({
         mintToken: mintToken.publicKey,
         tokenAccount: tokenAccount,
-        toAccount: account.publicKey,
+        toAccount: recieverTokenAccountKeypair.publicKey,
         associateTokenProgram,
       })
-      .signers([mintToken])
+      .signers([])
       .rpc();
 
     console.log("Your transaction signature", tx);
@@ -78,6 +98,7 @@ describe("sol-bridge", () => {
       reciever.publicKey,
       anchor.web3.LAMPORTS_PER_SOL
     );
+
     await provider.connection.confirmTransaction(signature);
 
     let recieverTokenAccountKeypair = anchor.web3.Keypair.generate();
