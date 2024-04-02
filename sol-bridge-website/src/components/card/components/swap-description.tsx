@@ -7,29 +7,32 @@ import { Connection, PublicKey, ParsedAccountData } from '@solana/web3.js'
 
 import { getAssociatedTokenAddressSync } from '@solana/spl-token'
 import { useEffect, useState } from 'react'
+import { useAddressStore } from '@/store/useAddressStore'
 
 export const SwapDescription = () => {
   const [balance, setBalance] = useState('0')
+  const { address } = useAddressStore()
 
   const handleGetBalance = async () => {
-    const connection = new Connection('https://api.devnet.solana.com')
-    const accountPublicKey = new PublicKey(
-      '14XaUVhoLCcHL2dZj62yvwnvhJRi1ir6x9orSGPPpaen'
-    )
-    const mintAccountPublickey = new PublicKey(
-      'ssSjvvxJQddW9EgBE7CbEW64iQkUPDxU7AMqicvDqfQ'
-    )
-    const ata = getAssociatedTokenAddressSync(
-      mintAccountPublickey,
-      accountPublicKey
-    )
-    const parsedAccountInfo = await connection.getParsedAccountInfo(ata)
+    if (address) {
+      const connection = new Connection('https://api.devnet.solana.com')
+      const accountPublicKey = new PublicKey(address)
+      const mintAccountPublickey = new PublicKey(
+        'ssSjvvxJQddW9EgBE7CbEW64iQkUPDxU7AMqicvDqfQ'
+      )
+      const ata = getAssociatedTokenAddressSync(
+        mintAccountPublickey,
+        accountPublicKey
+      )
+      const parsedAccountInfo = await connection.getParsedAccountInfo(ata)
 
-    const balanceData = parsedAccountInfo.value?.data as ParsedAccountData
-    if (balanceData && balanceData.parsed.info.tokenAmount.uiAmountString) {
-      setBalance(balanceData.parsed.info.tokenAmount.uiAmountString)
-    } else {
-      setBalance('0')
+      const balanceData = parsedAccountInfo.value?.data as ParsedAccountData
+      if (balanceData && balanceData.parsed.info.tokenAmount.uiAmountString) {
+        console.log(balanceData.parsed.info.tokenAmount.uiAmountString)
+        setBalance(balanceData.parsed.info.tokenAmount.uiAmountString)
+      } else {
+        setBalance('0')
+      }
     }
   }
 
