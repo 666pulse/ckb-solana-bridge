@@ -24,10 +24,6 @@ export const App = () => {
     [network]
   )
 
-  // const handleChangeNetwork = (e) => {
-  //   setNetwork(e)
-  // }
-
   return (
     <ConnectionProvider endpoint={endpoint}>
       <WalletProvider wallets={wallets} autoConnect>
