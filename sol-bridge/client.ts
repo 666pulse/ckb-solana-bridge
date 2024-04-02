@@ -1,6 +1,7 @@
 import fs from "fs";
 import * as anchor from "@coral-xyz/anchor";
 import {
+  ParsedAccountData,
   PublicKey,
   Keypair,
   SystemProgram,
@@ -12,6 +13,7 @@ import { SolBridge } from "./target/types/sol_bridge";
 
 import {
   createAccount,
+  getAssociatedTokenAddressSync,
   ASSOCIATED_TOKEN_PROGRAM_ID,
   getAssociatedTokenAddress,
 } from "@solana/spl-token";
@@ -54,10 +56,13 @@ const mintToken = loadKeypair(
   "./keypairs/ssSjvvxJQddW9EgBE7CbEW64iQkUPDxU7AMqicvDqfQ.json"
 );
 
+// 97eHpBUNgHyVj5pkedoDgZQxnYt4iSrMuZ93bZGws5B4
 const tokenAccount = anchor.utils.token.associatedAddress({
   mint: mintToken.publicKey,
   owner: provider.publicKey,
 });
+
+console.log("tokenAccount: ", tokenAccount.toBase58());
 
 async function main() {
   try {
@@ -76,7 +81,53 @@ async function main() {
   }
 }
 
+async function mint(toAddr: string, num: number) {
+  const toAddrKey = new PublicKey(toAddr);
+
+  const ata = getAssociatedTokenAddressSync(mintToken.publicKey, toAddrKey);
+
+  console.log("ata: ", ata.toBase58());
+
+  const accountInfo = await provider.connection.getAccountInfo(ata);
+
+  console.log("accountInfo: ", accountInfo);
+  const newAccountInfo = await provider.connection.getParsedAccountInfo(ata);
+
+  const parsed_data = (newAccountInfo.value?.data as ParsedAccountData).parsed;
+
+  console.log("parsed: ", parsed_data);
+
+  if (accountInfo == null) {
+
+    // await createAccount(
+    //   provider.connection,
+    //   mintToken,
+    //   mintToken.publicKey,
+    //   toAddrKey
+    //   ata,
+    // );
+  }
+
+  const total = new anchor.BN(10 ** 9 * num);
+
+  const tx = await program.methods
+    .mintTokenIns(total)
+    .accounts({
+      mintToken: mintToken.publicKey,
+      tokenAccount: tokenAccount,
+      toAccount: ata.toBase58(),
+      associateTokenProgram,
+    })
+    .signers([])
+    .rpc();
+
+  console.log("Your transaction signature", tx);
+}
+
 // async function tokenMetadata() {
+//   // editionAccount
+//   // https://solana.com/it/developers/guides/javascript/compressed-nfts
+
 //   const umi = createUmi(devrpc)
 //     .use(walletAdapterIdentity(signer))
 //     .use(mplTokenMetadata());
@@ -124,9 +175,7 @@ async function main() {
 //   }
 // }
 
-main();
+// main();
 
-// tokenMetadata()
-
-// editionAccount
-// https://solana.com/it/developers/guides/javascript/compressed-nfts
+const toAddr = "";
+mint(toAddr, 100);
