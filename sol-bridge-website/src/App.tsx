@@ -1,4 +1,4 @@
-import { useMemo } from 'react'
+import { useEffect, useMemo } from 'react'
 import {
   ConnectionProvider,
   WalletProvider,
@@ -11,6 +11,8 @@ import { WalletModalProvider } from '@solana/wallet-adapter-react-ui'
 import { Layout } from '@/components/Layout'
 import { MainPage } from '@/pages/main-page'
 
+import { Connection, PublicKey } from '@solana/web3.js'
+
 import '@/styles/global.css'
 
 export const App = () => {
@@ -18,6 +20,26 @@ export const App = () => {
 
   const endpoint = useMemo(() => clusterApiUrl(network), [network])
   const wallets = useMemo(() => [new PhantomWalletAdapter()], [])
+
+  // TODO: Analyze the account
+  const handleGetBalance = async () => {
+    const solana = new Connection('https://api.devnet.solana.com')
+    const accountPublicKey = new PublicKey(
+      '14XaUVhoLCcHL2dZj62yvwnvhJRi1ir6x9orSGPPpaen'
+    )
+    const mintAccount = new PublicKey(
+      'ssSjvvxJQddW9EgBE7CbEW64iQkUPDxU7AMqicvDqfQ'
+    )
+    const account = await solana.getTokenAccountsByOwner(accountPublicKey, {
+      mint: mintAccount,
+    })
+
+    console.log(account)
+  }
+
+  useEffect(() => {
+    handleGetBalance()
+  }, [])
 
   return (
     <ConnectionProvider endpoint={endpoint}>
