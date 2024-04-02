@@ -8,7 +8,7 @@ export const SwapDescription = () => {
     <div className="text-sm">
       <span className="text-gray-500">
         You have <span className="text-gray-800 underline">13,888 </span>
-        <span className="text-gray-800 underline">CKB</span> available balance
+        <span className="text-gray-800 underline">SOL</span> available balance
       </span>
       <div className="mt-3 mx-0.5 flex flex-col gap-1">
         <div className="flex items-center justify-between font-medium">

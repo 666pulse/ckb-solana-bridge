@@ -27,7 +27,7 @@ export const SwapInput = () => {
                 name="name"
                 id="name"
                 className="border-0 p-0 text-indigo-600 placeholder:text-indigo-400 focus:outline-none sm:text-lg sm:leading-6 mt-2 font-semibold bg-gray-50 focus-visible:ring-0 shadow-none"
-                placeholder="0 CKB"
+                placeholder="0 SOL"
               />
             </div>
             <Select>
@@ -36,12 +36,12 @@ export const SwapInput = () => {
                   placeholder={
                     <div className="flex items-center justify-start gap-2">
                       <img
-                        src="/nervos-network-ckb-logo.svg"
+                        src="/solana-sol-logo.svg"
                         alt=""
                         className="h-3 w-auto"
                       />
 
-                      <p>CKB</p>
+                      <p>SOL</p>
                     </div>
                   }
                 />
