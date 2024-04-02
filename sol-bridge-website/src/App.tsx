@@ -11,7 +11,7 @@ import { WalletModalProvider } from '@solana/wallet-adapter-react-ui'
 import { Layout } from '@/components/Layout'
 import { MainPage } from '@/pages/main-page'
 
-import { Connection, PublicKey } from '@solana/web3.js'
+import { Connection, PublicKey, ParsedAccountData } from '@solana/web3.js'
 
 import { getAssociatedTokenAddressSync } from '@solana/spl-token'
 
@@ -34,9 +34,12 @@ export const App = () => {
       mintAccountPublickey,
       accountPublicKey
     )
-    const accountInfo = await connection.getAccountInfo(ata)
+    const parsedAccountInfo = await connection.getParsedAccountInfo(ata)
+    const parsedAccountInfoData = (
+      parsedAccountInfo.value?.data as ParsedAccountData
+    ).parsed
 
-    console.log(accountInfo)
+    console.log(parsedAccountInfoData)
   }
 
   useEffect(() => {
