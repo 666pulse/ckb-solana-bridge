@@ -56,7 +56,7 @@ export const SwapToInput = () => {
                     <p>CKB</p>
                   </div>
                 </SelectItem>
-                <SelectItem value="solana">
+                {/* <SelectItem value="solana">
                   <div className="flex items-center justify-start gap-2">
                     <img
                       src="/solana-sol-logo.svg"
@@ -65,7 +65,7 @@ export const SwapToInput = () => {
                     />
                     <p>SOL</p>
                   </div>
-                </SelectItem>
+                </SelectItem> */}
               </SelectContent>
             </Select>
           </div>

@@ -47,7 +47,7 @@ export const SwapInput = () => {
                 />
               </SelectTrigger>
               <SelectContent className="font-medium">
-                <SelectItem value="ckb">
+                {/* <SelectItem value="ckb">
                   <div className="flex items-center justify-start gap-2.5">
                     <img
                       src="/nervos-network-ckb-logo.svg"
@@ -56,7 +56,7 @@ export const SwapInput = () => {
                     />
                     <p>CKB</p>
                   </div>
-                </SelectItem>
+                </SelectItem> */}
                 <SelectItem value="solana">
                   <div className="flex items-center justify-start gap-2">
                     <img
