@@ -1,12 +1,12 @@
-import { createContext } from 'react'
+import { create } from 'zustand'
 import { WalletAdapterNetwork } from '@solana/wallet-adapter-base'
 
-interface NetworkContextType {
+interface NetworkState {
   network: WalletAdapterNetwork
   setNetwork: (network: WalletAdapterNetwork) => void
 }
 
-export const NetworkContext = createContext<NetworkContextType>({
+export const useNetworkStore = create<NetworkState>((set) => ({
   network: WalletAdapterNetwork.Testnet,
-  setNetwork: () => {},
-})
+  setNetwork: (network) => set({ network }),
+}))
