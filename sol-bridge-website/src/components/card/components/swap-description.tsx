@@ -25,7 +25,7 @@ export const SwapDescription = () => {
             <span>
               <CurrencyDollarIcon className="h-4 w-auto text-gray-500" />
             </span>
-            1 CKB ≈ 0.0010 SOL
+            1 SOL = 10,588.23 CKB
           </span>
           <span className="text-gray-500">Live rate</span>
         </div>

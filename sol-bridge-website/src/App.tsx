@@ -19,7 +19,6 @@ import '@/styles/global.css'
 
 export const App = () => {
   const network = useNetworkStore((state) => state.network)
-
   const endpoint = useMemo(() => clusterApiUrl(network), [network])
   const wallets = useMemo(() => [new PhantomWalletAdapter()], [])
 
