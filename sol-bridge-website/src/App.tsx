@@ -1,4 +1,4 @@
-import { useContext, useMemo } from 'react'
+import { useMemo } from 'react'
 import {
   ConnectionProvider,
   WalletProvider,
@@ -9,25 +9,23 @@ import '@/styles/global.css'
 import { PhantomWalletAdapter } from '@solana/wallet-adapter-wallets'
 import { clusterApiUrl } from '@solana/web3.js'
 import { WalletModalProvider } from '@solana/wallet-adapter-react-ui'
-import { NetworkContext } from './context/networkContext'
-import { NetworkProvider } from './provider/networkProvider'
+import { useNetworkStore } from './store/networkStore'
 
 export const App = () => {
-  const { network } = useContext(NetworkContext)
+  const network = useNetworkStore((state) => state.network)
+
   const endpoint = useMemo(() => clusterApiUrl(network), [network])
   const wallets = useMemo(() => [new PhantomWalletAdapter()], [])
 
   return (
     <ConnectionProvider endpoint={endpoint}>
-      <NetworkProvider>
-        <WalletProvider wallets={wallets} autoConnect>
-          <WalletModalProvider>
-            <Layout>
-              <MainPage />
-            </Layout>
-          </WalletModalProvider>
-        </WalletProvider>
-      </NetworkProvider>
+      <WalletProvider wallets={wallets} autoConnect>
+        <WalletModalProvider>
+          <Layout>
+            <MainPage />
+          </Layout>
+        </WalletModalProvider>
+      </WalletProvider>
     </ConnectionProvider>
   )
 }
