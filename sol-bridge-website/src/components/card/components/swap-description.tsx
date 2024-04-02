@@ -3,11 +3,44 @@ import {
   MinusCircleIcon,
 } from '@heroicons/react/24/outline'
 
+import { Connection, PublicKey, ParsedAccountData } from '@solana/web3.js'
+
+import { getAssociatedTokenAddressSync } from '@solana/spl-token'
+import { useEffect, useState } from 'react'
+
 export const SwapDescription = () => {
+  const [balance, setBalance] = useState('0')
+
+  const handleGetBalance = async () => {
+    const connection = new Connection('https://api.devnet.solana.com')
+    const accountPublicKey = new PublicKey(
+      '14XaUVhoLCcHL2dZj62yvwnvhJRi1ir6x9orSGPPpaen'
+    )
+    const mintAccountPublickey = new PublicKey(
+      'ssSjvvxJQddW9EgBE7CbEW64iQkUPDxU7AMqicvDqfQ'
+    )
+    const ata = getAssociatedTokenAddressSync(
+      mintAccountPublickey,
+      accountPublicKey
+    )
+    const parsedAccountInfo = await connection.getParsedAccountInfo(ata)
+
+    const balanceData = parsedAccountInfo.value?.data as ParsedAccountData
+    if (balanceData && balanceData.parsed.info.tokenAmount.uiAmountString) {
+      setBalance(balanceData.parsed.info.tokenAmount.uiAmountString)
+    } else {
+      setBalance('0')
+    }
+  }
+
+  useEffect(() => {
+    handleGetBalance()
+  }, [])
+
   return (
     <div className="text-sm">
       <span className="text-gray-500">
-        You have <span className="text-gray-800 underline">13,888 </span>
+        You have <span className="text-gray-800 underline">{balance} </span>
         <span className="text-gray-800 underline">SOL</span> available balance
       </span>
       <div className="mt-3 mx-0.5 flex flex-col gap-1">

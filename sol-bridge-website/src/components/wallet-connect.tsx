@@ -7,7 +7,7 @@ import {
 } from '@/components/ui/select'
 import { WalletAdapterNetwork } from '@solana/wallet-adapter-base'
 import { WalletMultiButton } from '@solana/wallet-adapter-react-ui'
-import { useNetworkStore } from '@/store/networkStore'
+import { useNetworkStore } from '@/store/useNetworkStore'
 
 import('@solana/wallet-adapter-react-ui/styles.css')
 
