@@ -6,7 +6,7 @@ use anchor_spl::{
 
 use mpl_token_metadata::state::DataV2;
 
-declare_id!("CcCSjgbmthZywL2oSRJ2ABXHHmHcxW33tMs77F2fzHrG");
+declare_id!("cktXMgKUtBmgrqrz2TCPPj6RGi64oMb6SeiByopvG4L");
 
 #[program]
 pub mod sol_bridge {
