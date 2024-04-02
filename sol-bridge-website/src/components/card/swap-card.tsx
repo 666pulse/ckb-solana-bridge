@@ -9,7 +9,7 @@ export const SwapCard = () => {
       <div className="px-4 py-5 sm:p-6">
         <div className="mb-6 flex items-center justify-between">
           <h3 className="text-lg font-bold leading-6 text-gray-800">
-            CKB & SOL Cross-chain Bridge
+            CKB - SOL Cross Chain Bridge
           </h3>
         </div>
 

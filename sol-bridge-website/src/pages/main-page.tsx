@@ -23,7 +23,7 @@ export const MainPage = () => {
         </div>
 
         {/* Main Contents */}
-        <div className="mx-auto max-w-2xl py-12 mt-4 sm:mt-8">
+        <div className="mx-auto max-w-2xl py-12 mt-4">
           <div className="flex items-center justify-center mx-8">
             <SwapCard />
           </div>

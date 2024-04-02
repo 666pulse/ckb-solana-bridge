@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { Dialog } from '@headlessui/react'
 import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline'
+import { WalletConnect } from './wallet-connect'
 
 const navigation = [
   { name: 'Bridge', href: '#' },
@@ -49,9 +50,7 @@ export const Header = () => {
           ))}
         </div>
         <div className="hidden lg:flex lg:flex-1 lg:justify-end">
-          <a href="#" className="text-sm font-semibold leading-6 text-white">
-            Connect Wallet <span aria-hidden="true">&rarr;</span>
-          </a>
+          <WalletConnect />
         </div>
       </nav>
       <Dialog
