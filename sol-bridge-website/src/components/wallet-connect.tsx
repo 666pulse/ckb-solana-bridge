@@ -1,3 +1,4 @@
+import { useContext } from 'react'
 import { WalletMultiButton } from '@solana/wallet-adapter-react-ui'
 import {
   Select,
@@ -6,13 +7,13 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
-import { useState } from 'react'
 import { WalletAdapterNetwork } from '@solana/wallet-adapter-base'
+import { NetworkContext } from '@/context/networkContext'
 
 import('@solana/wallet-adapter-react-ui/styles.css')
 
 export const WalletConnect = () => {
-  const [network, setNetwork] = useState(WalletAdapterNetwork.Testnet)
+  const { network, setNetwork } = useContext(NetworkContext)
 
   const handleNetworkChange = (value: string) => {
     const networkValue =
@@ -20,9 +21,8 @@ export const WalletConnect = () => {
         ? WalletAdapterNetwork.Mainnet
         : value === 'devnet'
         ? WalletAdapterNetwork.Devnet
-        : WalletAdapterNetwork.Testnet // Default to Testnet
+        : WalletAdapterNetwork.Testnet
     setNetwork(networkValue)
-    console.log(networkValue)
   }
 
   return (
