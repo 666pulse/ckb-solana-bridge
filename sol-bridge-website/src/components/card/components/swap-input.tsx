@@ -7,8 +7,18 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
+import React, { useState } from 'react'
 
 export const SwapInput = () => {
+  const [inputValue, setInputValue] = useState('')
+
+  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const { value } = event.target
+    if (/^[0-9.,]+$/.test(value) || value === '') {
+      setInputValue(value)
+    }
+  }
+
   return (
     <form className="mb-3">
       <div className="grid w-full items-center gap-4">
@@ -28,6 +38,8 @@ export const SwapInput = () => {
                 id="name"
                 className="border-0 p-0 text-indigo-600 placeholder:text-indigo-400 focus:outline-none sm:text-lg sm:leading-6 mt-2 font-semibold bg-gray-50 focus-visible:ring-0 shadow-none"
                 placeholder="0 SOL"
+                value={inputValue}
+                onChange={handleInputChange}
               />
             </div>
             <Select>
