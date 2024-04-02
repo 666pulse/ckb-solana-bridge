@@ -3,9 +3,10 @@ use anchor_spl::{
     associated_token::AssociatedToken,
     token::{Mint, Token, TokenAccount},
 };
+
 use mpl_token_metadata::state::DataV2;
 
-declare_id!("");
+declare_id!("CcCSjgbmthZywL2oSRJ2ABXHHmHcxW33tMs77F2fzHrG");
 
 #[program]
 pub mod sol_bridge {
@@ -32,7 +33,7 @@ pub mod sol_bridge {
                     to: ctx.accounts.mint_token.to_account_info(),
                 },
             ),
-            100_000_000,
+            10_000_000, // rent
             82,
             ctx.accounts.token_program.key,
         )?;
@@ -69,6 +70,34 @@ pub mod sol_bridge {
                     authority: ctx.accounts.signer.to_account_info(),
                     mint: ctx.accounts.mint_token.to_account_info(),
                     to: ctx.accounts.token_account.to_account_info(),
+                },
+            ),
+            amount,
+        )?;
+
+        Ok(())
+    }
+
+    pub fn mint_token_ins(ctx: Context<MintToken>, amount: u64) -> Result<()> {
+        // associated_token::create(CpiContext::new(
+        //     ctx.accounts.associate_token_program.to_account_info(),
+        //     associated_token::Create {
+        //         payer: ctx.accounts.signer.to_account_info(),
+        //         associated_token: ctx.accounts.token_account.to_account_info(),
+        //         authority: ctx.accounts.signer.to_account_info(),
+        //         mint: ctx.accounts.mint_token.to_account_info(),
+        //         system_program: ctx.accounts.system_program.to_account_info(),
+        //         token_program: ctx.accounts.token_program.to_account_info(),
+        //     },
+        // ))?;
+
+        mint_to(
+            CpiContext::new(
+                ctx.accounts.token_account.to_account_info(),
+                MintTo {
+                    authority: ctx.accounts.signer.to_account_info(),
+                    mint: ctx.accounts.mint_token.to_account_info(),
+                    to: ctx.accounts.to_account.to_account_info(),
                 },
             ),
             amount,
@@ -321,6 +350,22 @@ pub struct CreateToken<'info> {
     pub token_program: Program<'info, Token>,
     pub associate_token_program: Program<'info, AssociatedToken>,
     pub rent: Sysvar<'info, Rent>,
+}
+
+#[derive(Accounts)]
+pub struct MintToken<'info> {
+    #[account(mut)]
+    pub mint_token: Account<'info, Mint>,
+    #[account(mut)]
+    /// CHECK
+    pub token_account: AccountInfo<'info>,
+    #[account(init_if_needed, payer = signer, space = 8)] // init_if_needed reinit attack
+    pub to_account: Account<'info, TokenAccount>,
+    #[account(mut)]
+    pub signer: Signer<'info>,
+    pub system_program: Program<'info, System>,
+    pub token_program: Program<'info, Token>,
+    pub associate_token_program: Program<'info, AssociatedToken>,
 }
 
 #[derive(Accounts)]

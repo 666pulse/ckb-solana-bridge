@@ -53,6 +53,24 @@ describe("sol-bridge", () => {
     }
   });
 
+  it("Mint Token", async () => {
+    const account = anchor.web3.Keypair.generate();
+
+    const num = new anchor.BN(10 ** 9 * 100);
+    const tx = await program.methods
+      .mintTokenIns(num)
+      .accounts({
+        mintToken: mintToken.publicKey,
+        tokenAccount: tokenAccount,
+        toAccount: account.publicKey,
+        associateTokenProgram,
+      })
+      .signers([mintToken])
+      .rpc();
+
+    console.log("Your transaction signature", tx);
+  });
+
   it("Token transfer", async () => {
     let reciever = anchor.web3.Keypair.generate();
 
