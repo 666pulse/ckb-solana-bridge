@@ -22,7 +22,6 @@ export const SwapInput = () => {
   return (
     <form className="mb-3">
       <div className="grid w-full items-center gap-4">
-        {/* Item--1 */}
         <div className="flex flex-col space-y-1.5">
           <div className="rounded-xl px-3 pb-1.5 pt-2.5 shadow-sm ring-1 ring-inset ring-gray-300 flex items-center justify-between overflow-hidden bg-gray-50">
             <div>
