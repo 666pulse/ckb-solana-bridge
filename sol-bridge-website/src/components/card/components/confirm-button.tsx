@@ -1,86 +1,79 @@
-import { BN } from "bn.js";
-import * as anchor from "@coral-xyz/anchor";
-import { Idl, Program } from "@coral-xyz/anchor";
-import { useAnchorWallet } from "@solana/wallet-adapter-react";
+import { BN } from 'bn.js'
+import * as anchor from '@coral-xyz/anchor'
+import { Idl, Program } from '@coral-xyz/anchor'
+import { useAnchorWallet } from '@solana/wallet-adapter-react'
 import {
   TOKEN_PROGRAM_ID,
   createAssociatedTokenAccountInstruction,
   getAssociatedTokenAddress,
-} from "@solana/spl-token";
+} from '@solana/spl-token'
 
 import {
   Connection,
   PublicKey,
   SYSVAR_RENT_PUBKEY,
   SystemProgram,
-} from "@solana/web3.js";
+} from '@solana/web3.js'
 
-import idl from "../../../idl/cross_bridge.json";
+import idl from '../../../idl/cross_bridge.json'
 
-import { useInputStore } from "@/store/useInputStore";
+import { useInputStore } from '@/store/useInputStore'
 
 export const ConfirmButton = () => {
   const sleep = (delay: number) =>
-    new Promise((resolve) => setTimeout(resolve, delay));
-
+    new Promise((resolve) => setTimeout(resolve, delay))
   const devRpc =
-    "https://devnet.helius-rpc.com/?api-key=ecaea1f0-ab87-4d61-bdef-de0dffd6f7cc";
-
+    'https://devnet.helius-rpc.com/?api-key=ecaea1f0-ab87-4d61-bdef-de0dffd6f7cc'
   const bridgeProgramId = new PublicKey(
-    "B2bYAPkQwmsuAnpyx4Efe3YR1FwKw4ApdxBW5rSSh7NQ",
-  );
-
+    'B2bYAPkQwmsuAnpyx4Efe3YR1FwKw4ApdxBW5rSSh7NQ'
+  )
   const mintAddress = new PublicKey(
-    "ssSjvvxJQddW9EgBE7CbEW64iQkUPDxU7AMqicvDqfQ",
-  );
-
-  const anchorWallet = useAnchorWallet();
-
-  const getProvider = (rpc: string) => {
-    const connection = new Connection(rpc);
-    const provider = new anchor.AnchorProvider(
-      connection,
-      anchorWallet as anchor.Wallet,
-      {},
-    );
-
-    return provider;
-  };
-
-  const getProgram = (rpc: string, programId: PublicKey) => {
-    const connection = new Connection(rpc);
-    const provider = new anchor.AnchorProvider(
-      connection,
-      anchorWallet as anchor.Wallet,
-      {},
-    );
-
-    anchor.setProvider(provider);
-
-    const bridgeProgram = new Program(idl as Idl, programId);
-
-    return bridgeProgram;
-  };
-
+    'ssSjvvxJQddW9EgBE7CbEW64iQkUPDxU7AMqicvDqfQ'
+  )
+  const anchorWallet = useAnchorWallet()
   const { inputValue } = useInputStore()
+  const connection = new Connection(devRpc)
+
+  const getProvider = () => {
+    const provider = new anchor.AnchorProvider(
+      connection,
+      anchorWallet as anchor.Wallet,
+      {}
+    )
+
+    return provider
+  }
+
+  const getProgram = (programId: PublicKey) => {
+    const provider = new anchor.AnchorProvider(
+      connection,
+      anchorWallet as anchor.Wallet,
+      {}
+    )
+
+    anchor.setProvider(provider)
+
+    const bridgeProgram = new Program(idl as Idl, programId)
+
+    return bridgeProgram
+  }
 
   const handleConfirm = async () => {
+    const provider = getProvider()
 
-    const provider = getProvider(devRpc);
-
-    const bridgeProgram = getProgram(devRpc, bridgeProgramId);
-    const payer = anchorWallet;
+    const bridgeProgram = getProgram(bridgeProgramId)
+    const payer = anchorWallet
 
     const associatedTokenAccount = await getAssociatedTokenAddress(
       mintAddress,
-      payer!.publicKey,
-    );
+      payer!.publicKey
+    )
 
-    const acc = anchor.web3.Keypair.generate();
+    const acc = anchor.web3.Keypair.generate()
     const escrowWalletAssociateAccount = await getAssociatedTokenAddress(
       mintAddress,
-      acc.publicKey,
-    );
+      acc.publicKey
+    )
 
     const mint_tx = new anchor.web3.Transaction().add(
       // Create the ATA account that is associated with our To wallet
@@ -88,51 +81,49 @@ export const ConfirmButton = () => {
         payer!.publicKey,
         escrowWalletAssociateAccount,
         acc.publicKey,
-        mintAddress,
-      ),
-    );
+        mintAddress
+      )
+    )
 
-    await provider.sendAndConfirm(mint_tx, []);
+    await provider.sendAndConfirm(mint_tx, [])
 
-    await sleep(1000 * 5);
+    await sleep(1000 * 5)
 
-    console.log(associatedTokenAccount.toString());
-    console.log(escrowWalletAssociateAccount.toString());
+    console.log(associatedTokenAccount.toString())
+    console.log(escrowWalletAssociateAccount.toString())
 
     // Executes our transfer smart contract
-    const [statePubKey, stateBump] =
-      anchor.web3.PublicKey.findProgramAddressSync(
-        [
-          Buffer.from("state"),
-          payer!.publicKey.toBuffer(),
-          mintAddress.toBuffer(),
-        ],
-        bridgeProgramId,
-      );
+    const [statePubKey] = anchor.web3.PublicKey.findProgramAddressSync(
+      [
+        Buffer.from('state'),
+        payer!.publicKey.toBuffer(),
+        mintAddress.toBuffer(),
+      ],
+      bridgeProgramId
+    )
 
-    const [walletPubKey, walletBump] =
-      anchor.web3.PublicKey.findProgramAddressSync(
-        [
-          Buffer.from("wallet"),
-          payer!.publicKey.toBuffer(),
-          mintAddress.toBuffer(),
-        ],
-        bridgeProgramId,
-      );
+    const [walletPubKey] = anchor.web3.PublicKey.findProgramAddressSync(
+      [
+        Buffer.from('wallet'),
+        payer!.publicKey.toBuffer(),
+        mintAddress.toBuffer(),
+      ],
+      bridgeProgramId
+    )
 
-    console.log(statePubKey.toString(), walletPubKey.toString());
+    console.log(statePubKey.toString(), walletPubKey.toString())
 
-    let data;
+    let data
     try {
-      data = await bridgeProgram.account.state.fetch(statePubKey);
+      data = await bridgeProgram.account.state.fetch(statePubKey)
     } catch (err) {
-      //
+      console.log(err)
     }
 
-    await sleep(1000 * 5);
+    await sleep(1000 * 5)
 
     if (!data) {
-      console.log("init account");
+      console.log('init account')
       const init = await bridgeProgram.methods
         .init()
         .accounts({
@@ -144,23 +135,23 @@ export const ConfirmButton = () => {
           systemProgram: SystemProgram.programId,
           rent: SYSVAR_RENT_PUBKEY,
         })
-        .rpc();
+        .rpc()
 
-      console.log("init tx: ", init);
-      await sleep(1000 * 30);
+      console.log('init tx: ', init)
+      await sleep(1000 * 30)
     }
 
-    const state0 = await bridgeProgram.account.state.fetch(statePubKey);
+    const state0 = await bridgeProgram.account.state.fetch(statePubKey)
 
-    console.log();
-    console.log("balance before deposit: ", state0);
-    console.log();
+    console.log()
+    console.log('balance before deposit: ', state0)
+    console.log()
 
-    console.log("payer: ", payer!.publicKey.toBase58());
+    console.log('payer: ', payer!.publicKey.toBase58())
 
-    console.log("inputValue: ", inputValue);
+    console.log('inputValue: ', inputValue)
 
-    const num = parseInt(inputValue as string)  * 10e8
+    const num = parseInt(inputValue as string) * 10e8
 
     try {
       const tx = await bridgeProgram.methods
@@ -174,18 +165,18 @@ export const ConfirmButton = () => {
           tokenProgram: TOKEN_PROGRAM_ID,
           systemProgram: SystemProgram.programId,
         })
-        .rpc();
+        .rpc()
 
-      console.log("Deposit tx: ", tx);
+      console.log('Deposit tx: ', tx)
     } catch (err) {
-      console.error("deposit err: ", err);
+      console.error('deposit err: ', err)
     }
 
-    await sleep(1000 * 30);
+    await sleep(1000 * 30)
 
-    const state1 = await bridgeProgram.account.state.fetch(statePubKey);
-    console.log("balance after deposit: ", state1.amount!.toString());
-  };
+    const state1 = await bridgeProgram.account.state.fetch(statePubKey)
+    console.log('balance after deposit: ', state1.amount!.toString())
+  }
 
   return (
     <button
@@ -195,5 +186,5 @@ export const ConfirmButton = () => {
     >
       Confirm
     </button>
-  );
-};
+  )
+}

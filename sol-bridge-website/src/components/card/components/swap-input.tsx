@@ -29,7 +29,7 @@ export const SwapInput = () => {
                 htmlFor="name"
                 className="block text-sm font-medium text-gray-500"
               >
-                Swap
+                Bridge
               </Label>
               <Input
                 type="text"
