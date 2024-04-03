@@ -1,7 +1,10 @@
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
+import { useOutputAddressStore } from '@/store/useOutputAddressStore'
 
 export const SwapToInput = () => {
+  const { setOutputAddress } = useOutputAddressStore()
+
   return (
     <form className="mt-3">
       <div className="grid w-full items-center gap-4">
@@ -21,6 +24,7 @@ export const SwapToInput = () => {
                 id="name"
                 className="border-0 p-0 text-indigo-600 placeholder:text-indigo-400 focus:outline-none sm:text-lg sm:leading-6 mt-2 font-semibold bg-gray-50 focus-visible:ring-0 shadow-none w-[275px] overflow-hidden whitespace-nowrap truncate"
                 placeholder="CKB Address"
+                onChange={(e) => setOutputAddress(e.target.value)}
               />
             </div>
           </div>
