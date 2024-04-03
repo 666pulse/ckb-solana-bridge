@@ -26,7 +26,7 @@ export const SwapToInput = () => {
                 type="text"
                 name="name"
                 id="name"
-                className="border-0 p-0 text-indigo-600 placeholder:text-indigo-400 focus:outline-none sm:text-lg sm:leading-6 mt-2 font-semibold bg-gray-50 focus-visible:ring-0 shadow-none"
+                className="border-0 p-0 text-indigo-600 placeholder:text-indigo-400 focus:outline-none sm:text-lg sm:leading-6 mt-2 font-semibold bg-gray-50 focus-visible:ring-0 shadow-none w-[275px]"
                 placeholder="CKB Address"
               />
             </div>
