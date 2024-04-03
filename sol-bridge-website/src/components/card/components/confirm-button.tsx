@@ -31,7 +31,7 @@ export const ConfirmButton = () => {
     'ssSjvvxJQddW9EgBE7CbEW64iQkUPDxU7AMqicvDqfQ'
   )
   const anchorWallet = useAnchorWallet()
-  const { inputValue } = useInputStore()
+  const { inputValue, setInputValue } = useInputStore()
   const connection = new Connection(devRpc)
 
   const getProvider = () => {
@@ -175,6 +175,7 @@ export const ConfirmButton = () => {
     await sleep(1000 * 30)
 
     const state1 = await bridgeProgram.account.state.fetch(statePubKey)
+    setInputValue('0')
     console.log('balance after deposit: ', state1.amount!.toString())
   }
 
