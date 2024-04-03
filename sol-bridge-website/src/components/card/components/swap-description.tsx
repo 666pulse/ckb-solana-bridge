@@ -56,8 +56,9 @@ export const SwapDescription = () => {
   return (
     <div className="text-sm">
       <span className="text-gray-500">
-        You have <span className="text-gray-800 underline">{balance} </span>
-        <span className="text-gray-800 underline">SCKB</span> available balance
+        You have <span className="text-pink-600 underline">{balance} </span>
+        <span className="text-pink-600 underline">SCKB</span> available balance
+        🚀
       </span>
       <div className="mt-3 mx-0.5 flex flex-col">
         <div className="flex items-center justify-center">

@@ -75,7 +75,7 @@ export const SwapInput = () => {
                       alt=""
                       className="h-3 w-auto"
                     />
-                    <p>SOL</p>
+                    <p>SCKB</p>
                   </div>
                 </SelectItem>
               </SelectContent>

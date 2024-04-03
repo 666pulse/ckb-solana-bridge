@@ -3,7 +3,7 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 export const Footer = () => {
   return (
     <>
-      <span className="text-muted-foreground font-black text-3xl flex items-center justify-center mb-6">
+      <span className="text-muted-foreground font-black text-2xl flex items-center justify-center mb-6">
         Made by
       </span>
       <div className="flex items-center justify-center gap-32">
