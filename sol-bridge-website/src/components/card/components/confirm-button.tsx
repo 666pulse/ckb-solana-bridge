@@ -18,8 +18,12 @@ import {
 import idl from '../../../idl/cross_bridge.json'
 
 import { useInputStore } from '@/store/useInputStore'
+import { useState } from 'react'
+import { Loading } from '@/components/Loading'
 
 export const ConfirmButton = () => {
+  const [isLoading, setIsLoading] = useState(false)
+
   const devRpc =
     'https://devnet.helius-rpc.com/?api-key=ecaea1f0-ab87-4d61-bdef-de0dffd6f7cc'
   const bridgeProgramId = new PublicKey(
@@ -178,6 +182,8 @@ export const ConfirmButton = () => {
   // }
 
   const handleConfirm = async () => {
+    setIsLoading(true)
+
     try {
       const provider = getProvider()
       const bridgeProgram = getProgram(bridgeProgramId)
@@ -262,17 +268,22 @@ export const ConfirmButton = () => {
     } catch (error) {
       console.error('Error during transaction or setup:', error)
     } finally {
-      setInputValue('0') // 重置 input 值或进行其他清理工作
+      setInputValue('0')
+      setIsLoading(false)
     }
   }
 
   return (
-    <button
-      type="button"
-      className="px-4.5 mt-12 w-full rounded-lg bg-indigo-600 py-3 text-sm font-semibold text-white shadow-sm transition-all hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-      onClick={handleConfirm}
-    >
-      Confirm
-    </button>
+    <div className="relative">
+      <button
+        type="button"
+        className="px-4.5 mt-12 w-full rounded-lg bg-indigo-600 py-3 text-sm font-semibold text-white shadow-sm transition-all hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+        onClick={handleConfirm}
+      >
+        Confirm
+      </button>
+
+      {isLoading && <Loading />}
+    </div>
   )
 }
