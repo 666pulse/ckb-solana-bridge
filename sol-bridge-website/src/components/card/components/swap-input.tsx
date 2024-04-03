@@ -7,10 +7,10 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
-import React, { useState } from 'react'
+import { useInputStore } from '@/store/useInputStore'
 
 export const SwapInput = () => {
-  const [inputValue, setInputValue] = useState('')
+  const { inputValue, setInputValue } = useInputStore()
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = event.target
