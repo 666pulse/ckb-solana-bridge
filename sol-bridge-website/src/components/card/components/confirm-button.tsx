@@ -1,4 +1,5 @@
-import idl from "../../../idl/cross_bridge.json";
+import { BN } from "bn.js";
+import * as anchor from "@coral-xyz/anchor";
 import { Idl, Program } from "@coral-xyz/anchor";
 import { useAnchorWallet } from "@solana/wallet-adapter-react";
 import {
@@ -13,7 +14,8 @@ import {
   SYSVAR_RENT_PUBKEY,
   SystemProgram,
 } from "@solana/web3.js";
-import * as anchor from "@coral-xyz/anchor";
+
+import idl from "../../../idl/cross_bridge.json";
 
 export const ConfirmButton = () => {
   const sleep = (delay: number) =>
@@ -23,7 +25,7 @@ export const ConfirmButton = () => {
     "https://devnet.helius-rpc.com/?api-key=ecaea1f0-ab87-4d61-bdef-de0dffd6f7cc";
 
   const bridgeProgramId = new PublicKey(
-    "28MEkUJbffntPxM2WFu6mSaKnomnsPg1KHWgCKLukGNb",
+    "B2bYAPkQwmsuAnpyx4Efe3YR1FwKw4ApdxBW5rSSh7NQ",
   );
 
   const mintAddress = new PublicKey(
@@ -104,7 +106,7 @@ export const ConfirmButton = () => {
       );
 
     const [walletPubKey, walletBump] =
-      await anchor.web3.PublicKey.findProgramAddress(
+      anchor.web3.PublicKey.findProgramAddressSync(
         [
           Buffer.from("wallet"),
           payer!.publicKey.toBuffer(),
@@ -139,9 +141,41 @@ export const ConfirmButton = () => {
         })
         .rpc();
 
-      console.log("init: ", init);
-      await sleep(1000 * 5);
+      console.log("init tx: ", init);
+      await sleep(1000 * 30);
     }
+
+    const state0 = await bridgeProgram.account.state.fetch(statePubKey);
+
+    console.log();
+    console.log("balance before deposit: ", state0);
+    console.log();
+
+    console.log("payer: ", payer!.publicKey.toBase58());
+
+    try {
+      const tx = await bridgeProgram.methods
+        .deposit(new BN(10e9 * 10))
+        .accounts({
+          stateAccount: statePubKey,
+          escrowWalletAssociateAccount: walletPubKey,
+          user: payer!.publicKey,
+          mint: mintAddress,
+          userAssociatedAccount: associatedTokenAccount,
+          tokenProgram: TOKEN_PROGRAM_ID,
+          systemProgram: SystemProgram.programId,
+        })
+        .rpc();
+
+      console.log("Deposit: ", tx);
+    } catch (err) {
+      console.error("deposit err: ", err);
+    }
+
+    await sleep(1000 * 30);
+
+    const state1 = await bridgeProgram.account.state.fetch(statePubKey);
+    console.log("balance after deposit: ", state1.amount!.toString());
   };
 
   return (
