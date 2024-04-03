@@ -69,7 +69,7 @@ export const SwapDescription = () => {
         </div>
       </div> */}
         <div className="flex items-center justify-center">
-          <ArrowDownIcon className="h-8 text-gray-500 rounded bg-muted w-fit p-2" />
+          <ArrowDownIcon className="h-8 text-gray-500 rounded bg-gray-50 w-fit p-2 shadow-sm" />
         </div>
       </div>
     </div>
