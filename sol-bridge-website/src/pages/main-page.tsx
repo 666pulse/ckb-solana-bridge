@@ -44,7 +44,7 @@ export const MainPage = () => {
           />
         </div>
 
-        <div className="text-white flex flex-col items-center justify-end h-full mt-20">
+        <div className="text-white flex flex-col items-center justify-end h-full mt-14">
           <Footer />
         </div>
       </div>
