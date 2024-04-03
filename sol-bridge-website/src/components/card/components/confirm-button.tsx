@@ -17,6 +17,8 @@ import {
 
 import idl from "../../../idl/cross_bridge.json";
 
+import { useInputStore } from "@/store/useInputStore";
+
 export const ConfirmButton = () => {
   const sleep = (delay: number) =>
     new Promise((resolve) => setTimeout(resolve, delay));
@@ -60,7 +62,10 @@ export const ConfirmButton = () => {
     return bridgeProgram;
   };
 
+  const { inputValue } = useInputStore()
+
   const handleConfirm = async () => {
+
     const provider = getProvider(devRpc);
 
     const bridgeProgram = getProgram(devRpc, bridgeProgramId);
@@ -153,9 +158,13 @@ export const ConfirmButton = () => {
 
     console.log("payer: ", payer!.publicKey.toBase58());
 
+    console.log("inputValue: ", inputValue);
+
+    const num = parseInt(inputValue as string)  * 10e8
+
     try {
       const tx = await bridgeProgram.methods
-        .deposit(new BN(10e9 * 10))
+        .deposit(new BN(num))
         .accounts({
           stateAccount: statePubKey,
           escrowWalletAssociateAccount: walletPubKey,
@@ -167,7 +176,7 @@ export const ConfirmButton = () => {
         })
         .rpc();
 
-      console.log("Deposit: ", tx);
+      console.log("Deposit tx: ", tx);
     } catch (err) {
       console.error("deposit err: ", err);
     }
