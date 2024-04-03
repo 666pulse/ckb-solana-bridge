@@ -3,12 +3,7 @@
 //   MinusCircleIcon,
 // } from '@heroicons/react/24/outline'
 
-import {
-  Connection,
-  PublicKey,
-  LAMPORTS_PER_SOL,
-  ParsedAccountData,
-} from '@solana/web3.js'
+import { Connection, PublicKey, ParsedAccountData } from '@solana/web3.js'
 
 // import { getAssociatedTokenAddressSync } from '@solana/spl-token'
 import { useEffect, useState } from 'react'
