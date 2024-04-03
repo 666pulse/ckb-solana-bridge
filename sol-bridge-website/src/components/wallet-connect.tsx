@@ -40,7 +40,7 @@ export const WalletConnect = () => {
   return (
     <div className="flex items-center justify-end w-full text-white">
       <Select onValueChange={handleNetworkChange}>
-        <SelectTrigger className="w-[145px] border-gray-700 focus:ring-0 mr-3 rounded-sm">
+        <SelectTrigger className="w-[145px] h-12 border-gray-700 focus:ring-0 mr-3 rounded-sm">
           <SelectValue
             placeholder={network.charAt(0).toUpperCase() + network.slice(1)}
           >
