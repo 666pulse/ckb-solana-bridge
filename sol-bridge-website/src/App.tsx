@@ -7,6 +7,7 @@ import { clusterApiUrl } from '@solana/web3.js'
 import { useNetworkStore } from './store/useNetworkStore'
 import { PhantomWalletAdapter } from '@solana/wallet-adapter-wallets'
 import { WalletModalProvider } from '@solana/wallet-adapter-react-ui'
+import { Toaster } from '@/components/ui/toaster'
 
 import { Layout } from '@/components/Layout'
 import { MainPage } from '@/pages/main-page'
@@ -24,6 +25,7 @@ export const App = () => {
         <WalletModalProvider>
           <Layout>
             <MainPage />
+            <Toaster />
           </Layout>
         </WalletModalProvider>
       </WalletProvider>

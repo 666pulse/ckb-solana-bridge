@@ -20,9 +20,12 @@ import idl from '../../../idl/cross_bridge.json'
 import { useInputStore } from '@/store/useInputStore'
 import { useState } from 'react'
 import { Loading } from '@/components/Loading'
+import { useToast } from '@/components/ui/use-toast'
+import { ToastAction } from '@/components/ui/toast'
 
 export const ConfirmButton = () => {
   const [isLoading, setIsLoading] = useState(false)
+  const { toast } = useToast()
 
   const devRpc =
     'https://devnet.helius-rpc.com/?api-key=ecaea1f0-ab87-4d61-bdef-de0dffd6f7cc'
@@ -264,6 +267,19 @@ export const ConfirmButton = () => {
         })
         .rpc()
 
+      toast({
+        title: 'Bridge successfully 🎉',
+        description: (
+          <a
+            href={`https://solscan.io/tx/${txSignature}?cluster=devnet`}
+            className="hover:underline text-muted-foreground"
+            target="_blank"
+          >
+            View on explorer 🔗
+          </a>
+        ),
+        action: <ToastAction altText="Confirm">Confirm ✨</ToastAction>,
+      })
       console.log('Deposit transaction:', txSignature)
     } catch (error) {
       console.error('Error during transaction or setup:', error)
