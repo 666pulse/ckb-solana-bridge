@@ -272,7 +272,7 @@ export const ConfirmButton = () => {
         description: (
           <a
             href={`https://solscan.io/tx/${txSignature}?cluster=devnet`}
-            className="hover:underline text-muted-foreground"
+            className="hover:underline"
             target="_blank"
           >
             View on explorer 🔗
