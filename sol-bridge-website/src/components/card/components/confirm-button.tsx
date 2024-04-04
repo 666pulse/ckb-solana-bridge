@@ -205,6 +205,8 @@ export const ConfirmButton = () => {
 
       const acc = anchor.web3.Keypair.generate()
 
+      console.log('acc', acc)
+
       const escrowWalletAssociateAccount = await getAssociatedTokenAddress(
         mintAddress,
         acc.publicKey

@@ -23,7 +23,7 @@ export const SwapToInput = () => {
                 name="name"
                 id="name"
                 className="border-0 p-0 text-indigo-600 placeholder:text-indigo-600 focus:outline-none sm:text-lg sm:leading-6 mt-2 font-semibold bg-gray-50 focus-visible:ring-0 shadow-none w-[315px] overflow-hidden whitespace-nowrap truncate cursor-not-allowed"
-                placeholder="ckt1qy...35ct3k"
+                placeholder="ckt1qy...5qjvz2"
                 onChange={(e) => setOutputAddress(e.target.value)}
                 readOnly
               />

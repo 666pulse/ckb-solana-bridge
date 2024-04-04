@@ -36,13 +36,13 @@ export const SwapInput = () => {
                 name="name"
                 id="name"
                 className="border-0 p-0 text-indigo-600 placeholder:text-indigo-400 focus:outline-none sm:text-lg sm:leading-6 mt-2 font-semibold bg-gray-50 focus-visible:ring-0 shadow-none"
-                placeholder="0 SCKB"
+                placeholder="0 SBOME"
                 value={inputValue}
                 onChange={handleInputChange}
               />
             </div>
             <Select>
-              <SelectTrigger className="w-[105px] rounded-full text-gray-800 bg-white font-medium">
+              <SelectTrigger className="w-[115px] rounded-full text-gray-800 bg-white font-medium">
                 <SelectValue
                   placeholder={
                     <div className="flex items-center justify-start gap-2">
@@ -52,7 +52,7 @@ export const SwapInput = () => {
                         className="h-3 w-auto"
                       />
 
-                      <p>SCKB</p>
+                      <p>SBOME</p>
                     </div>
                   }
                 />
@@ -75,7 +75,7 @@ export const SwapInput = () => {
                       alt=""
                       className="h-3 w-auto"
                     />
-                    <p>SCKB</p>
+                    <p>SBOME</p>
                   </div>
                 </SelectItem>
               </SelectContent>
