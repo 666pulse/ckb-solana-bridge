@@ -193,6 +193,7 @@ export const ConfirmButton = () => {
 
       if (!anchorWallet) {
         console.log("Couldn't find anchor wallet")
+        toast({ title: "Couldn't find wallet" })
         return
       }
       const payer = anchorWallet.publicKey
@@ -282,6 +283,9 @@ export const ConfirmButton = () => {
       })
       console.log('Deposit transaction:', txSignature)
     } catch (error) {
+      toast({
+        title: 'Something went wrong 💥',
+      })
       console.error('Error during transaction or setup:', error)
     } finally {
       setInputValue('0')
